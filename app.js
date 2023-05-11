@@ -60,3 +60,34 @@ function colorInputModif(e){
     gradientData.colors[currentIndex] = currentInput.value.toUpperCase();
     populateUI()
 }
+
+const copyBtn = document.querySelector('.copy-btn');
+copyBtn.addEventListener('click', handleGradientCopy);
+
+let lock = false
+
+function handleGradientCopy(){
+    const gradient = `linear-gradient(${gradientData.angle}deg, ${gradientData.colors[0]}, ${gradientData.colors[1]})`
+    navigator.clipboard.writeText(gradient) // Ces 2 lignes servent a copier tout ce qu'on veut. Ici en l'occurence on copie le linear gradient
+    if(lock) return 
+
+    lock = true
+    copyBtn.classList.add('active')
+
+    setTimeout(() => {
+        copyBtn.classList.remove('active')
+        lock = false
+    }, 1000)
+}
+
+const randomGradiantButton = document.querySelector('.random-btn')
+randomGradiantButton.addEventListener('click', createRandomGradient)
+
+function createRandomGradient(){
+    for(let i = 0; i < colorLabels.length; i++){
+        randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`
+        console.log(randomColor);
+        gradientData.colors[i] = randomColor.toUpperCase()
+    }
+    populateUI()
+}
